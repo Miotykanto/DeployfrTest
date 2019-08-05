@@ -5,7 +5,7 @@ import jwt_decode from 'jwt-decode';
 
 export const registerUser = (user, history) => dispatch => {
     //axios.post('https://metyza-cuisine.herokuapp.com/register', user)
-    axios.post('https://lasalasa.herokuapp.com/register', user)
+    axios.post('https://io-back.herokuapp.com/register', user)
             .then(res =>  history.push('/login')
                 )
             .catch(err => {
@@ -17,7 +17,7 @@ export const registerUser = (user, history) => dispatch => {
 }
 
 export const loginUser = (user) => dispatch => {
-    axios.post('https://lasalasa.herokuapp.com/login', user)
+    axios.post('https://io-back.herokuapp.com/login', user)
             .then(res => {
                 const { token } = res.data;
                 localStorage.setItem('jwtToken', token);

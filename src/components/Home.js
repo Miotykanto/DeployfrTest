@@ -14,7 +14,7 @@ export default class Home extends Component {
 
     }
     componentDidMount() {
-        axios.get('https://lasalasa.herokuapp.com/affichertous')
+        axios.get('https://io-back.herokuapp.com/affichertous')
             .then(response => {
                 console.log(response.data);
                 this.setState({ profil: response.data });

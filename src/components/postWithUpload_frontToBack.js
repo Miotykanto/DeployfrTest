@@ -56,12 +56,12 @@ class PostFrontToBack extends React.Component {
     data.append('place_dispo',this.state.place_dispo);
     data.append('place_reserve',this.state.place_reserve);
     data.append('prix',this.state.prix);
-    fetch('https://lasalasa.herokuapp.com/register/'+localStorage.getItem('id'), {
+    fetch('https://io-back.herokuapp.com/register/'+localStorage.getItem('id'), {
       method: 'POST',
       body: data,
     }).then((response) => {
       response.json().then((body) => {
-        this.setState({ image: `https://lasalasa.herokuapp.com/register/${body.image}` });
+        this.setState({ image: `https://io-back.herokuapp.com/register/${body.image}` });
         console.log('ity ilay body.fil',body.image);
        
       });
