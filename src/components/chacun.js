@@ -1,22 +1,30 @@
 
+
 import React, { Component } from 'react';
 import axios from 'axios';
 //import ReactImageMagnify from 'react-image-magnify';
 import { Link } from 'react-router-dom';
+//import Activer from './boutonactive'
 export default class Chacun extends Component {
 
     constructor(props) {
         super(props);
         
-       
-        this.state = { profil: [] };
+        this.handleActive = this.handleActive.bind(this);
+        this.handleDesactive = this.handleDesactive.bind(this);
+        this.state = { profil: [] ,visibilite:false};
     }
 
 
-  
+    handleActive(){
+        this.setState({visibilite:true})
+    }
+    handleDesactive(){
+        this.setState({visibilite:false})
+    }
 
     componentDidMount() {
-        axios.get('https://io-back.herokuapp.com/'+this.props.location.pathname)
+        axios.get('https://ngambae.herokuapp.com/'+this.props.location.pathname)
             .then(response => {
                 console.log(response.data);
                 this.setState({ profil: response.data });
@@ -25,8 +33,8 @@ export default class Chacun extends Component {
             .catch(function (error) {
                 console.log(error);
             })
+//get front-particulier
 
-        
 
     }
 
@@ -49,55 +57,51 @@ export default class Chacun extends Component {
   <h4 class="card-title" id='titrebe'
   onClick={()=>{
       console.log(obj._id);
-      localStorage.setItem('atelier',obj._id);
+      localStorage.setItem('atelier',obj.id2);
       
   }}><center>{obj.titre}</center> </h4>
-  <img width="100%" height="300px" src={'https://io-back.herokuapp.com/user/'+obj.image} alt="pdp" />
+  <img width="100%" height="300px" src={'https://ngambae.herokuapp.com/user/'+obj.image} alt="pdp" />
   <p class="card-text">Description: {obj.description}</p>
-  <p class="card-text">Date: {obj.date}</p>
-  <p class="card-text">Horaire de debut: {obj.debut}</p>
-  <p class="card-text">Durée: {obj.dure}</p>
-  <p class="card-text">Nombre de place disponible: {obj.place_dispo}</p>
-  <p class="card-text">Nombre de place reserve: {obj.place_reserve}</p>
-  <p class="card-text" onClick={()=>{
-console.log(obj.visibilite);
+  <p class="card-text">Date de reservation: {obj.date}</p>
+  <p class="card-text">Date fin de reservation : {obj.debut}</p>
+  <p class="card-text">Nombre d'Adulte: {obj.dure}</p>
+  <p class="card-text">Nombre d'Enfant: {obj.place_dispo}</p>
+  <p class="card-text">Total Personne: {obj.place_reserve}</p>
+  <p class="card-text" 
+onClick={()=>{
+    console.log(localStorage.getItem('ti'));
+    
+}}
 
-  }}>Prix: {obj.prix}$</p>
+ >Prix: {obj.prix}</p>
   <div className='row'>
-      <div className='col-md-6'>
-  <Link to={'/profil/'+obj._id} className="btn btn-primary" id="metykosa">Edit</Link></div>
+      <div className='col-md-4'>
+  <Link to={'/profil/'+obj._id} className="btn btn-primary">Edit</Link></div>
 
-
-  <div>
-  <div className='col-md-6'>
-     
-  {obj.visibilite===true ?(<button onClick={(e)=>{
-             e.preventDefault()
-            axios.get("https://io-back.herokuapp.com/masquer/"+obj._id).then(res=>{
-                 axios.get('https://io-back.herokuapp.com/register/'+ localStorage.getItem('id')).then(res=>{
-            console.log(res.data)
-            this.setState({profil:res.data})
-        })
-                console.log(res.data)})
-           
-          //"/masquer/:_id"/register/:_id   
-         }} className="btn btn-danger">Desactiver</button>):(<button onClick={(e)=>{
-            e.preventDefault()
-            console.log(obj._id)
-           axios.get("https://io-back.herokuapp.com/affichier/"+obj._id).then(res=>{
-  axios.get('https://io-back.herokuapp.com/register/'+ localStorage.getItem('id')).then(res=>{
-            console.log(res.data)
-            this.setState({profil:res.data})
-        })
-                console.log(res.data)})
-            
-         }} className="btn btn-success">Activer</button>)}
+  <div>   
+  <div className='col-md-4'>
+            {this.state.visibilite ? (<div>
+    <button className='btn btn-primary' onClick={(e)=>{
+        e.preventDefault()
+         axios.get("https://ngambae.herokuapp.com/masquer/"+obj._id).then(res=>console.log(res.data)
+         )
+         this.handleDesactive()
+        }}>Desactiver</button>
+   
+      </div>):(<div>
+    <button className='btn btn-primary' onClick={(e)=>{
+        e.preventDefault()
+        axios.get("https://ngambae.herokuapp.com/affichier/"+obj._id).then(res=>console.log(res.data)
+        )
+        this.handleActive()
+        }}>Activer</button>
+      </div>)}  
       </div>
+              </div>
+             <div className='col-md-4'>
+  <Link to={'/getParticulier/'+obj._id} className="btn btn-primary" >Interessé</Link></div>
              </div>
-             </div>
-        
-
- 
+  
 
 </div>
 </div>
